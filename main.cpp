@@ -1,13 +1,23 @@
 // Simple calculator
 // For compilers that support precompilation, includes "wx/wx.h".
+
 #include <wx/wxprec.h>
 #ifndef WX_PRECOMP
     #include <wx/wx.h>
 #endif
 
+#include "RPN.h"
+
 using std::cout;
 using std::cin;
 using std::endl;
+
+static const char * about_str =
+"This is a simple graphic calculator \n\
+It can several things: \n\
+- Base operations +, -, *, / \n\
+- Support brackets \n\
+- sin(x), cos(x)";
 
 class MyApp: public wxApp
 {
@@ -22,7 +32,6 @@ public:
     MyFrame(const wxString& title, const wxPoint& pos, const wxSize& size);
 
 private:
-    void OnHello(wxCommandEvent& event);
     void OnExit(wxCommandEvent& event);
     void OnAbout(wxCommandEvent& event);
     void OnTextEnter(wxCommandEvent& event);
@@ -36,7 +45,6 @@ private:
 
 
 enum {
-    ID_HELLO,
     ID_GLOBAL_PANEL,
     ID_TEXT_ENTER,
     ID_TEXT_ANSWER,
@@ -44,7 +52,6 @@ enum {
 
 
 wxIMPLEMENT_APP(MyApp); // содержит main-функцию
-
 
 
 bool MyApp::OnInit()
@@ -59,9 +66,6 @@ MyFrame::MyFrame(const wxString& title, const wxPoint& pos, const wxSize& size)
         : wxFrame(NULL, wxID_ANY, title, pos, size)
 {
     wxMenu *menuFile = new wxMenu;
-    menuFile->Append(ID_HELLO, "&Hello...\tCtrl-H",
-                     "Help string shown in status bar for this menu item");
-    menuFile->AppendSeparator();
     menuFile->Append(wxID_EXIT);
     wxMenu *menuHelp = new wxMenu;
     menuHelp->Append(wxID_ABOUT);
@@ -74,7 +78,6 @@ MyFrame::MyFrame(const wxString& title, const wxPoint& pos, const wxSize& size)
 
     Bind(wxEVT_COMMAND_MENU_SELECTED, &MyFrame::OnExit, this, wxID_EXIT);
     Bind(wxEVT_COMMAND_MENU_SELECTED, &MyFrame::OnAbout, this, wxID_ABOUT);
-    Bind(wxEVT_COMMAND_MENU_SELECTED, &MyFrame::OnHello, this, ID_HELLO);
     Bind(wxEVT_COMMAND_TEXT_UPDATED, &MyFrame::OnTextEnter, this, ID_TEXT_ENTER);
 
 
@@ -91,22 +94,27 @@ void MyFrame::OnExit(wxCommandEvent& event)
     Close( true );
 }
 
-
 void MyFrame::OnAbout(wxCommandEvent& event)
 {
-    wxMessageBox( "This is a wxWidgets' Hello world sample",
-                  "About Hello World", wxOK | wxICON_INFORMATION );
+    wxMessageBox( about_str, "About calculator", wxOK | wxICON_INFORMATION );
 }
 
-
-void MyFrame::OnHello(wxCommandEvent& event)
-{
-    wxLogMessage("Hello world from wxWidgets!");
-}
 
 void MyFrame::OnTextEnter(wxCommandEvent& event)
 {
+//    cout << "Entered text: " << TextEnter->GetValue() << endl;
 
-cout << "Entered text: " << TextEnter->GetValue() << endl;
-
+    try {
+        std::string expr(TextEnter->GetValue().c_str());
+        if (!expr.empty()) {
+            double answer = calcExpr(expr);
+            TextAnswer->SetValue(std::to_string(answer));
+        }
+        else
+            TextAnswer->SetValue("");
+    }
+    catch (exception & e) {
+        cout << e.what() << endl;
+        TextAnswer->SetValue("");
+    }
 }
