@@ -1,6 +1,6 @@
 #include <iostream>
-#include "Node.h"
 #include <exception>
+#include "Node.h"
 
 Operation_t::Operation_t(const string & s, int p, size_t c)
     : name(s), priority(p), count_arg(c) { args.resize(count_arg); }

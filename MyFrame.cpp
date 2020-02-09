@@ -2,11 +2,16 @@
 #include "RPN.h"
 
 static const char * about_str =
-"This is a simple graphic calculator \n\
-It can several things: \n\
-- Base operations +, -, *, / \n\
-- Support brackets \n\
-- sin(x), cos(x)";
+"This is a simple graphic calculator. \n\
+Its features: \n\
+- Support for basic functions +, -, *, / \n\
+- Support unary + and - \n\
+- support brackets \n\
+- Factorial calculation \n\
+- Exponentiation \n\
+- Support trigonometric functions \n\
+- Support constants \n\
+- Ability to write whitespace in an expression";
 
 
 MyFrame::MyFrame(const wxString& title, const wxPoint& pos, const wxSize& size)

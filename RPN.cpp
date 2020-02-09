@@ -1,8 +1,6 @@
-#include "RPN.h"
 #include <algorithm>
 #include <iostream>
-
-using namespace std;
+#include "RPN.h"
 
 vector<string> parseExpr(const string & exp)
 {
