@@ -1,5 +1,4 @@
-#ifndef NODE_H
-#define NODE_H
+#pragma once
 
 #include <string>
 #include <vector>
@@ -37,4 +36,3 @@ protected:
     vector<shared_ptr<Node>> args;
 };
 
-#endif // NODE_H

@@ -6,10 +6,8 @@
 #include <stack>
 #include "Operations.h"
 
-using namespace std;
-
-vector<string> parseExpr(const string & expr);
+std::vector<std::string> parseExpr(const std::string & expr);
 bool isOneSymbolOperator(char c);
-queue<shared_ptr<Node>> parseTokens(const vector<string> & tokens);
-double calcRPN(queue<shared_ptr<Node>> rpn);
-double calcExpr(const string & expr);
+std::queue<std::shared_ptr<Node>> parseTokens(const std::vector<std::string> & tokens);
+double calcRPN(std::queue<std::shared_ptr<Node>> rpn);
+double calcExpr(const std::string & expr);

@@ -2,6 +2,8 @@
 #include <algorithm>
 #include <iostream>
 
+using namespace std;
+
 vector<string> parseExpr(const string & exp)
 {
     string expr = exp;
