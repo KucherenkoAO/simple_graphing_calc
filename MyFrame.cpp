@@ -1,5 +1,6 @@
 #include "MyFrame.h"
 #include "RPN.h"
+#include <sstream>
 
 static const char * about_str =
 "This is a simple graphic calculator. \n\
@@ -36,7 +37,7 @@ MyFrame::MyFrame(const wxString& title, const wxPoint& pos, const wxSize& size)
     LabelEnter = new wxStaticText(GlobalPanel, wxID_ANY, _("Enter expression:"), wxPoint(25,30), wxSize(150,40), 0, "");
     TextEnter = new wxTextCtrl(GlobalPanel, ID_TEXT_ENTER, wxEmptyString, wxPoint(150,20), wxSize(250,40), 0, wxDefaultValidator, "ID_TEXT_ENTER");
     LabelAnswer = new wxStaticText(GlobalPanel, wxID_ANY, _("Answer:"), wxPoint(25,70), wxSize(150,40), 0, "");
-    TextAnswer = new wxTextCtrl(GlobalPanel, ID_TEXT_ANSWER, wxEmptyString, wxPoint(150,60), wxSize(250,40), 0, wxDefaultValidator, "ID_TEXT_ANSWER");
+    TextAnswer = new wxTextCtrl(GlobalPanel, ID_TEXT_ANSWER, wxEmptyString, wxPoint(150,60), wxSize(250,40), wxTE_READONLY, wxDefaultValidator, "ID_TEXT_ANSWER");
 }
 
 
@@ -57,12 +58,14 @@ void MyFrame::OnTextEnter(wxCommandEvent& event)
 //    std::cout << "Entered text: " << TextEnter->GetValue() << std::endl;
     try {
         std::string expr(TextEnter->GetValue().c_str());
-        if (!expr.empty()) {
-            double answer = calcExpr(expr);
-            TextAnswer->SetValue(std::to_string(answer));
-        }
-        else
+        if (expr.empty()) {
             TextAnswer->SetValue("");
+        }
+        else {
+            std::ostringstream os;
+            os << calcExpr(expr);
+            TextAnswer->SetValue(os.str());
+        }
     }
     catch (exception & e) {
         std::cout << e.what() << std::endl;

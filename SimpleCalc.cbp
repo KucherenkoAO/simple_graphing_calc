@@ -27,6 +27,15 @@
 		<Linker>
 			<Add option="`wx-config --libs`" />
 		</Linker>
+		<Unit filename="MathFunctions.h" />
+		<Unit filename="MyFrame.cpp" />
+		<Unit filename="MyFrame.h" />
+		<Unit filename="Node.cpp" />
+		<Unit filename="Node.h" />
+		<Unit filename="Operations.cpp" />
+		<Unit filename="Operations.h" />
+		<Unit filename="RPN.cpp" />
+		<Unit filename="RPN.h" />
 		<Unit filename="main.cpp" />
 		<Extensions>
 			<code_completion />

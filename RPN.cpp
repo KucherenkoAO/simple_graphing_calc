@@ -4,6 +4,9 @@
 
 vector<string> parseExpr(const string & exp)
 {
+    if (exp.empty())
+        return {};
+
     string expr = exp;
     auto it = remove_if(expr.begin(), expr.end(), [](char ch) {return isspace(ch);} );
     expr.erase(it, expr.end());
@@ -39,6 +42,9 @@ bool isOneSymbolOperator(const char op) {
 }
 
 queue<shared_ptr<Node>> parseTokens(const vector<string> & tokens) {
+    if (tokens.empty())
+        return {};
+
     stack<shared_ptr<Node>> s;
     queue<shared_ptr<Node>> rpn;
 
@@ -90,6 +96,9 @@ queue<shared_ptr<Node>> parseTokens(const vector<string> & tokens) {
 }
 
 double calcRPN(queue<shared_ptr<Node>> rpn) {
+    if (rpn.empty())
+        return 0;
+
     stack<shared_ptr<Node>> s;
     while (!rpn.empty()) {
         if (typeid(*rpn.front()) == typeid(Numerical)) {
