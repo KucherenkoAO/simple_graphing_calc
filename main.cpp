@@ -2,7 +2,7 @@
 // For compilers that support precompilation, includes "wx/wx.h".
 
 #include "MyFrame.h"
-
+#include <iostream>
 
 class MyApp: public wxApp
 {
@@ -16,5 +16,6 @@ bool MyApp::OnInit()
     frame->Show( true );
     return true;
 }
+
 
 wxIMPLEMENT_APP(MyApp); // содержит main-функцию
