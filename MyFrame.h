@@ -15,12 +15,17 @@ private:
     void OnAbout(wxCommandEvent& event);
     void OnSize(wxSizeEvent& event);
     void OnTextEnter(wxCommandEvent& event);
+    void OnHistoryButton(wxCommandEvent& event);
+    void OnPressEnter(wxCommandEvent& event);
+
 
     wxPanel* GlobalPanel;
     wxStaticText* LabelEnter;
     wxStaticText* LabelAnswer;
     wxTextCtrl* TextEnter;
     wxTextCtrl* TextAnswer;
+    wxButton* HistoryButton;
+    wxTextCtrl* TextHistory;
 };
 
 
@@ -28,22 +33,18 @@ enum {
     ID_GLOBAL_PANEL,
     ID_TEXT_ENTER,
     ID_TEXT_ANSWER,
+    ID_SAVE_HISTORY_BUTTON,
 };
 
 
-struct ElementGeometry {
-    wxPoint position;
-    wxSize size;
-};
-
-
-const ElementGeometry enterLabel { wxPoint(25, 30), wxSize(150, 40) };
-const ElementGeometry enterField { wxPoint(150, 20), wxSize(250, 35) };
-const ElementGeometry answerLabel { wxPoint(25, 80), wxSize(150, 40) };
-const ElementGeometry answerField { wxPoint(150, 70), wxSize(250, 35) };
-
-
-
+struct {
+    wxPoint enterLabel = {25, 25};
+    wxPoint enterField = {150, 20};
+    wxPoint answerLabel = {25, 75};
+    wxPoint answerField = {150, 70};
+    wxPoint historyButton = {25, 120};
+    wxPoint historyField = {25, 180};
+} position;
 
 
 

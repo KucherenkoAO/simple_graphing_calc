@@ -12,7 +12,7 @@ public:
 
 bool MyApp::OnInit()
 {
-    MyFrame *frame = new MyFrame("Simple calculator", wxPoint(50, 50), wxSize(450, 250) );
+    MyFrame *frame = new MyFrame("Simple calculator", wxPoint(250, 250), wxSize(450, 400) );
     frame->Show( true );
     return true;
 }
