@@ -5,6 +5,7 @@
     #include <wx/wx.h>
 #endif
 
+
 class MyFrame: public wxFrame
 {
 public:
@@ -17,9 +18,10 @@ private:
     void OnTextEnter(wxCommandEvent& event);
     void OnHistoryButton(wxCommandEvent& event);
     void OnPressEnter(wxCommandEvent& event);
-
+    void OnPaint(wxPaintEvent& event);
 
     wxPanel* GlobalPanel;
+    wxPanel* DrawPanel;
     wxStaticText* LabelEnter;
     wxStaticText* LabelAnswer;
     wxTextCtrl* TextEnter;
@@ -34,6 +36,7 @@ enum {
     ID_TEXT_ENTER,
     ID_TEXT_ANSWER,
     ID_SAVE_HISTORY_BUTTON,
+    ID_CANVAS,
 };
 
 
