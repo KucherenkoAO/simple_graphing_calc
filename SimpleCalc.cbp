@@ -14,6 +14,7 @@
 				<Option projectLinkerOptionsRelation="2" />
 				<Compiler>
 					<Add option="-O2" />
+					<Add option="-std=c++1z" />
 				</Compiler>
 				<Linker>
 					<Add option="-s" />
@@ -27,6 +28,8 @@
 		<Linker>
 			<Add option="`wx-config --libs`" />
 		</Linker>
+		<Unit filename="DrawFunctionGraphics.cpp" />
+		<Unit filename="DrawFunctionGraphics.h" />
 		<Unit filename="MathFunctions.h" />
 		<Unit filename="MyFrame.cpp" />
 		<Unit filename="MyFrame.h" />

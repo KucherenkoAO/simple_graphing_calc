@@ -23,6 +23,16 @@ public:
     string strVal() const override { return to_string(num); }
 };
 
+class Variable : public Node {
+private:
+    double& var;
+public:
+    Variable(double& v) : var(v) {}
+    double evalute() const override { return var; }
+    string strVal() const override { return to_string(var); }
+};
+
+
 class Operation_t : public Node {
 public:
     const string name;

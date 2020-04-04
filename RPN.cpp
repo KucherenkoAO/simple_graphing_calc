@@ -41,7 +41,7 @@ bool isOneSymbolOperator(const char op) {
     return n != string::npos;
 }
 
-queue<shared_ptr<Node>> parseTokens(const vector<string> & tokens) {
+queue<shared_ptr<Node>> parseTokens(const vector<string> & tokens, double * X_ptr) {
     if (tokens.empty())
         return {};
 
@@ -65,6 +65,8 @@ queue<shared_ptr<Node>> parseTokens(const vector<string> & tokens) {
                 throw invalid_argument("Bad expression: missed \'(\'");
             s.pop();
         }
+        else if (X_ptr && token == "x")
+            rpn.push(make_shared<Variable>(*X_ptr));
         else if (strToConstant.find(token) != strToConstant.end())
             rpn.push(make_shared<Numerical>(strToConstant.at(token)));
         else {
@@ -101,7 +103,7 @@ double calcRPN(queue<shared_ptr<Node>> rpn) {
 
     stack<shared_ptr<Node>> s;
     while (!rpn.empty()) {
-        if (typeid(*rpn.front()) == typeid(Numerical)) {
+        if (typeid(*rpn.front()) == typeid(Numerical) || typeid(*rpn.front()) == typeid(Variable)) {
             s.push(rpn.front());
         }
         else {

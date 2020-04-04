@@ -1,5 +1,6 @@
 #include "MyFrame.h"
 #include "RPN.h"
+#include "DrawFunctionGraphics.h"
 #include <sstream>
 
 #define DEBUGVAR(x) std::cout << #x << " = " << (x) << std::endl
@@ -40,6 +41,7 @@ MyFrame::MyFrame(const wxString& title, const wxPoint& pos, const wxSize& size)
     Bind(wxEVT_COMMAND_TEXT_UPDATED, &MyFrame::OnTextEnter, this, ID_TEXT_ENTER);
     Bind(wxEVT_TEXT_ENTER, &MyFrame::OnPressEnter, this, ID_TEXT_ENTER);
     Bind(wxEVT_BUTTON, &MyFrame::OnHistoryButton, this, ID_SAVE_HISTORY_BUTTON);
+    Bind(wxEVT_BUTTON, &MyFrame::OnDrawButton, this, ID_DRAW_BUTTON);
     Bind(wxEVT_PAINT, &MyFrame::OnPaint, this, wxID_ANY);
 
     GlobalPanel = new wxPanel(this, ID_GLOBAL_PANEL, wxDefaultPosition, wxSize(300, 300), wxTAB_TRAVERSAL);
@@ -49,6 +51,7 @@ MyFrame::MyFrame(const wxString& title, const wxPoint& pos, const wxSize& size)
     LabelAnswer = new wxStaticText(GlobalPanel, wxID_ANY, "Answer:", position.answerLabel);
     TextAnswer = new wxTextCtrl(GlobalPanel, ID_TEXT_ANSWER, wxEmptyString, position.answerField, wxDefaultSize, wxTE_READONLY);
     HistoryButton = new wxButton(GlobalPanel, ID_SAVE_HISTORY_BUTTON, "Save in history", position.historyButton);
+    HistoryButton = new wxButton(GlobalPanel, ID_DRAW_BUTTON, "Draw function graph", position.graphButton);
     TextHistory = new wxTextCtrl(GlobalPanel, ID_TEXT_ANSWER, wxEmptyString, position.historyField, wxDefaultSize, wxTE_READONLY | wxTE_MULTILINE);
 
 }
@@ -119,10 +122,18 @@ void MyFrame::OnHistoryButton(wxCommandEvent& event) {
         TextHistory->AppendText("\n  " + new_line);
 }
 
+
+void MyFrame::OnDrawButton(wxCommandEvent& event) {
+    GraphFrame *frame = new GraphFrame(std::string(TextEnter->GetValue().c_str()), "Function graph frame", wxPoint(250, 250), wxSize(700, 700) );
+    frame->Show( true );
+}
+
+
 void MyFrame::OnPressEnter(wxCommandEvent& event) {
     OnHistoryButton(event);
     TextEnter->SetValue("");
 }
+
 
 void MyFrame::OnPaint(wxPaintEvent& event) {
     wxPaintDC dc(DrawPanel);
