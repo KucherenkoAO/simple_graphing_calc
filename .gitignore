@@ -2,3 +2,4 @@ bin/
 obj/
 SimpleCalc.layout
 SimpleCalc.depend
+*.save

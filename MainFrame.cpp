@@ -44,13 +44,16 @@ MainFrame::MainFrame(const wxString& title, const wxPoint& pos, const wxSize& si
     Bind(wxEVT_BUTTON, &MainFrame::OnDrawButton, this, ID_DRAW_BUTTON);
 
     GlobalPanel = new wxPanel(this, ID_GLOBAL_PANEL, wxDefaultPosition, wxSize(300, 300), wxTAB_TRAVERSAL);
-    DrawPanel = new FunctionGraphPanel("0", this, ID_GLOBAL_PANEL, wxPoint(300, 0), drawSize, wxTAB_TRAVERSAL | wxFULL_REPAINT_ON_RESIZE);
+    DrawPanel = new FunctionGraphPanel("", this, ID_GLOBAL_PANEL, wxPoint(300, 0), drawSize, wxTAB_TRAVERSAL | wxFULL_REPAINT_ON_RESIZE);
+    DrawButton = new wxButton(GlobalPanel, ID_DRAW_BUTTON, "Draw function graph", position.graphButton);
+
     LabelEnter = new wxStaticText(GlobalPanel, wxID_ANY, "Enter expression:", position.enterLabel);
     TextEnter = new wxTextCtrl(GlobalPanel, ID_TEXT_ENTER, wxEmptyString, position.enterField, wxDefaultSize, wxTE_PROCESS_ENTER);
+
     LabelAnswer = new wxStaticText(GlobalPanel, wxID_ANY, "Answer:", position.answerLabel);
     TextAnswer = new wxTextCtrl(GlobalPanel, ID_TEXT_ANSWER, wxEmptyString, position.answerField, wxDefaultSize, wxTE_READONLY);
+
     HistoryButton = new wxButton(GlobalPanel, ID_SAVE_HISTORY_BUTTON, "Save in history", position.historyButton);
-    HistoryButton = new wxButton(GlobalPanel, ID_DRAW_BUTTON, "Draw function graph", position.graphButton);
     TextHistory = new wxTextCtrl(GlobalPanel, ID_TEXT_ANSWER, wxEmptyString, position.historyField, wxDefaultSize, wxTE_READONLY | wxTE_MULTILINE);
 }
 

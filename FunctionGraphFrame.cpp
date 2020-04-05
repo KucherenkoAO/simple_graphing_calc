@@ -23,8 +23,8 @@ FunctionGraphFrame::FunctionGraphFrame(std::string expr, const wxString& title, 
     Bind(wxEVT_COMMAND_MENU_SELECTED, &FunctionGraphFrame::OnAbout, this, wxID_ABOUT);
     Bind(wxEVT_SIZE, &FunctionGraphFrame::OnSize, this);
 
-    GraphPanel = new FunctionGraphPanel(expr, this, ID_GRAPH_PANEL, wxPoint(0, 0), {GetSize().GetWidth() - 10, GetSize().GetHeight() - 210}, wxTAB_TRAVERSAL | wxFULL_REPAINT_ON_RESIZE);
-    ControlPanel = new wxPanel(this, ID_CONTROL_PANEL, {0, GetSize().GetHeight() - 200}, {GetSize().GetWidth(), 200}, wxTAB_TRAVERSAL);
+    GraphPanel = new FunctionGraphPanel(expr, this, ID_GRAPH_PANEL, wxPoint(0, 0), {GetSize().GetWidth() - 10, GetSize().GetHeight() - 110}, wxTAB_TRAVERSAL | wxFULL_REPAINT_ON_RESIZE);
+    ControlPanel = new wxPanel(this, ID_CONTROL_PANEL, {0, GetSize().GetHeight() - 100}, {GetSize().GetWidth(), 100}, wxTAB_TRAVERSAL);
 }
 
 
