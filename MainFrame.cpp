@@ -94,30 +94,46 @@ void MainFrame::OnSize(wxSizeEvent& event)
 
 void MainFrame::OnTextEnter(wxCommandEvent& event)
 {
+    bool is_const_expression = false;
+    std::string expr(TextEnter->GetValue().c_str());
+    DrawPanel->SetFunction("");
     try {
-        std::string expr(TextEnter->GetValue().c_str());
         if (expr.empty()) {
-            DrawPanel->SetFunction("0");
             TextAnswer->SetValue("");
         }
         else {
-            DrawPanel->SetFunction(expr);
+//            DrawPanel->SetFunction(expr);
             std::ostringstream os;
             os << calcExpr(expr);
             TextAnswer->SetValue(os.str());
+            is_const_expression = true;
         }
     }
     catch (exception & e) {
         std::cout << e.what() << std::endl;
         TextAnswer->SetValue("");
     }
+
+    if (!is_const_expression) {
+        try {
+            DrawPanel->SetFunction(expr);
+        }
+        catch (...) {}
+    }
 }
 
 void MainFrame::OnHistoryButton(wxCommandEvent& event) {
-    if (TextAnswer->IsEmpty())
+    wxString new_line;
+    DEBUGVAR(DrawPanel->function_is_valid);
+    DEBUGVAR(TextAnswer->IsEmpty());
+    DEBUGVAR(TextAnswer->GetValue());
+    if (DrawPanel->function_is_valid)
+            new_line = "y = " + TextEnter->GetValue();
+    else if (!TextAnswer->IsEmpty())
+            new_line = TextEnter->GetValue() + " = " + TextAnswer->GetValue();
+    else
         return;
 
-    wxString new_line = TextEnter->GetValue() + " = " + TextAnswer->GetValue();
     if (TextHistory->IsEmpty())
         TextHistory->AppendText("  " + new_line);
     else

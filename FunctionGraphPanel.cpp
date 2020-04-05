@@ -66,11 +66,17 @@ void FunctionGraphPanel::OnPaint(wxPaintEvent& event) {
     double x = 1;
     std::queue<std::shared_ptr<Node>> rpn;
     try {
+        if (func == "") {
+            function_is_valid = false;
+            return;
+        }
         auto tokens = parseExpr(func);
         rpn = parseTokens(tokens, &x);
         calcRPN(rpn);
+        function_is_valid = true;
     }
     catch (...) {
+        function_is_valid = false;
         return;
     }
 

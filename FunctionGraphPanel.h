@@ -17,6 +17,9 @@ public:
     void SetScale(double sc);
     double GetScale() const {return scale; }
     void SetFunction(std::string str);
+
+    bool function_is_valid = false;
+
 private:
     std::string func;
     double scale = 40;
