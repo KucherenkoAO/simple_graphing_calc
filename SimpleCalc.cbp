@@ -28,11 +28,13 @@
 		<Linker>
 			<Add option="`wx-config --libs`" />
 		</Linker>
-		<Unit filename="DrawFunctionGraphics.cpp" />
-		<Unit filename="DrawFunctionGraphics.h" />
+		<Unit filename="FunctionGraphFrame.cpp" />
+		<Unit filename="FunctionGraphFrame.h" />
+		<Unit filename="FunctionGraphPanel.cpp" />
+		<Unit filename="FunctionGraphPanel.h" />
+		<Unit filename="MainFrame.cpp" />
+		<Unit filename="MainFrame.h" />
 		<Unit filename="MathFunctions.h" />
-		<Unit filename="MyFrame.cpp" />
-		<Unit filename="MyFrame.h" />
 		<Unit filename="Node.cpp" />
 		<Unit filename="Node.h" />
 		<Unit filename="Operations.cpp" />

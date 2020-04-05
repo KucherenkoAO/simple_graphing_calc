@@ -1,7 +1,7 @@
 // Simple calculator
 // For compilers that support precompilation, includes "wx/wx.h".
 
-#include "MyFrame.h"
+#include "MainFrame.h"
 #include <iostream>
 
 class MyApp: public wxApp
@@ -12,7 +12,7 @@ public:
 
 bool MyApp::OnInit()
 {
-    MyFrame *frame = new MyFrame("Simple calculator", wxPoint(250, 250), wxSize(750, 700) );
+    MainFrame *frame = new MainFrame("Simple calculator", wxPoint(250, 250), wxSize(750, 700) );
     frame->Show( true );
     return true;
 }

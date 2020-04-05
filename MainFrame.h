@@ -5,11 +5,13 @@
     #include <wx/wx.h>
 #endif
 
+#include "FunctionGraphPanel.h"
 
-class MyFrame: public wxFrame
+
+class MainFrame: public wxFrame
 {
 public:
-    MyFrame(const wxString& title, const wxPoint& pos, const wxSize& size);
+    MainFrame(const wxString& title, const wxPoint& pos, const wxSize& size);
 
 private:
     void OnExit(wxCommandEvent& event);
@@ -19,10 +21,9 @@ private:
     void OnHistoryButton(wxCommandEvent& event);
     void OnDrawButton(wxCommandEvent& event);
     void OnPressEnter(wxCommandEvent& event);
-    void OnPaint(wxPaintEvent& event);
 
     wxPanel* GlobalPanel;
-    wxPanel* DrawPanel;
+    FunctionGraphPanel* DrawPanel;
     wxStaticText* LabelEnter;
     wxStaticText* LabelAnswer;
     wxTextCtrl* TextEnter;
