@@ -1,4 +1,5 @@
 #include <sstream>
+#include <fstream>
 #include "MainFrame.h"
 #include "RPN.h"
 #include "FunctionGraphFrame.h"
@@ -26,6 +27,8 @@ MainFrame::MainFrame(const wxString& title, const wxPoint& pos, const wxSize& si
 {
     wxMenu *menuFile = new wxMenu;
     menuFile->Append(wxID_EXIT);
+    menuFile->Append(ID_MEMU_LOAD_HISTORY, "&Load history");
+    menuFile->Append(ID_MEMU_EXPORT_HISTORY, "&Export history");
     wxMenu *menuHelp = new wxMenu;
     menuHelp->Append(wxID_ABOUT);
     wxMenuBar *menuBar = new wxMenuBar;
@@ -37,6 +40,8 @@ MainFrame::MainFrame(const wxString& title, const wxPoint& pos, const wxSize& si
 
     Bind(wxEVT_COMMAND_MENU_SELECTED, &MainFrame::OnExit, this, wxID_EXIT);
     Bind(wxEVT_COMMAND_MENU_SELECTED, &MainFrame::OnAbout, this, wxID_ABOUT);
+    Bind(wxEVT_COMMAND_MENU_SELECTED, &MainFrame::OnLoadHistory, this, ID_MEMU_LOAD_HISTORY);
+    Bind(wxEVT_COMMAND_MENU_SELECTED, &MainFrame::OnExportHistory, this, ID_MEMU_EXPORT_HISTORY);
     Bind(wxEVT_SIZE, &MainFrame::OnSize, this);
     Bind(wxEVT_COMMAND_TEXT_UPDATED, &MainFrame::OnTextEnter, this, ID_TEXT_ENTER);
     Bind(wxEVT_TEXT_ENTER, &MainFrame::OnPressEnter, this, ID_TEXT_ENTER);
@@ -67,6 +72,29 @@ void MainFrame::OnExit(wxCommandEvent& event)
 void MainFrame::OnAbout(wxCommandEvent& event)
 {
     wxMessageBox(about_str, "About calculator", wxOK | wxICON_INFORMATION );
+}
+
+void MainFrame::OnLoadHistory(wxCommandEvent& event) {
+    ifstream fin_history("history.txt");
+    if (!fin_history.is_open()) {
+        wxMessageBox("Can't open file \"history.txt\"", "File error", wxOK | wxICON_INFORMATION );
+        return;
+    }
+
+    TextHistory->SetValue("");
+    for (std::string str; std::getline(fin_history, str); )
+        TextHistory->AppendText(str + '\n');
+}
+
+
+void MainFrame::OnExportHistory(wxCommandEvent& event) {
+    ofstream fout_history("history.txt");
+    if (!fout_history.is_open()) {
+        wxMessageBox("Can't open file \"history.txt\"", "File error", wxOK | wxICON_INFORMATION );
+        return;
+    }
+    fout_history << TextHistory->GetValue();
+    TextHistory->SetValue("");
 }
 
 
@@ -134,15 +162,12 @@ void MainFrame::OnHistoryButton(wxCommandEvent& event) {
     else
         return;
 
-    if (TextHistory->IsEmpty())
-        TextHistory->AppendText("  " + new_line);
-    else
-        TextHistory->AppendText("\n  " + new_line);
+    TextHistory->AppendText("  " + new_line + '\n');
 }
 
 
 void MainFrame::OnDrawButton(wxCommandEvent& event) {
-    FunctionGraphFrame *frame = new FunctionGraphFrame(std::string(TextEnter->GetValue().c_str()), "Function graph frame", wxPoint(250, 250), wxSize(700, 700) );
+    FunctionGraphFrame *frame = new FunctionGraphFrame(std::string(TextEnter->GetValue().c_str()), "Function graph", wxPoint(250, 250), wxSize(700, 700) );
     frame->Show( true );
 }
 

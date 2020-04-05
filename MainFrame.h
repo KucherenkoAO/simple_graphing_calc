@@ -16,6 +16,8 @@ public:
 private:
     void OnExit(wxCommandEvent& event);
     void OnAbout(wxCommandEvent& event);
+    void OnLoadHistory(wxCommandEvent& event);
+    void OnExportHistory(wxCommandEvent& event);
     void OnSize(wxSizeEvent& event);
     void OnTextEnter(wxCommandEvent& event);
     void OnHistoryButton(wxCommandEvent& event);
@@ -35,6 +37,8 @@ private:
 
 
 enum {
+    ID_MEMU_LOAD_HISTORY,
+    ID_MEMU_EXPORT_HISTORY,
     ID_GLOBAL_PANEL,
     ID_TEXT_ENTER,
     ID_TEXT_ANSWER,
