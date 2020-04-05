@@ -82,7 +82,7 @@ void FunctionGraphPanel::OnPaint(wxPaintEvent& event) {
 
     SetCoord();
     dc.SetPen(wxPen("#000000"));
-    double height = 6 / scale;
+    double height = 8 / scale;
 
     dc.DrawLine(TransformXY(0, y_min), TransformXY(0, y_max));
     for(int x = x_min; x < x_max; ++x) {
@@ -95,7 +95,7 @@ void FunctionGraphPanel::OnPaint(wxPaintEvent& event) {
     for(int y = y_min; y < y_max; ++y) {
         dc.DrawLine(TransformXY(height / 2, y), TransformXY(-height / 2, y));
         if (y != 0)
-            dc.DrawText(std::to_string(y), TransformXY(-15 / scale, y + 10 / scale));
+            dc.DrawText(std::to_string(y), TransformXY(8 / scale, y + 10 / scale));
     }
 
     dc.DrawText("0", TransformXY(-15 / scale, -3 / scale));
