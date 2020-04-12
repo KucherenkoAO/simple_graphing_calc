@@ -6,7 +6,7 @@
 #endif
 
 #include "FunctionGraphPanel.h"
-
+#include <fstream>
 
 class MainFrame: public wxFrame
 {
@@ -15,6 +15,7 @@ public:
 
 private:
     void OnExit(wxCommandEvent& event);
+    void OnClose(wxCloseEvent& event);
     void OnAbout(wxCommandEvent& event);
     void OnLoadHistory(wxCommandEvent& event);
     void OnExportHistory(wxCommandEvent& event);
@@ -23,6 +24,9 @@ private:
     void OnHistoryButton(wxCommandEvent& event);
     void OnDrawButton(wxCommandEvent& event);
     void OnPressEnter(wxCommandEvent& event);
+
+    void LoadHistory(std::ifstream & fin);
+    void ExportHistory(std::ofstream & fout);
 
     wxPanel* GlobalPanel;
     FunctionGraphPanel* DrawPanel;

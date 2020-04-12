@@ -39,6 +39,7 @@ MainFrame::MainFrame(const wxString& title, const wxPoint& pos, const wxSize& si
     SetStatusText( "Welcome to simple calculator!" );
 
     Bind(wxEVT_COMMAND_MENU_SELECTED, &MainFrame::OnExit, this, wxID_EXIT);
+    Bind(wxEVT_CLOSE_WINDOW, &MainFrame::OnClose, this, wxID_ANY);
     Bind(wxEVT_COMMAND_MENU_SELECTED, &MainFrame::OnAbout, this, wxID_ABOUT);
     Bind(wxEVT_COMMAND_MENU_SELECTED, &MainFrame::OnLoadHistory, this, ID_MEMU_LOAD_HISTORY);
     Bind(wxEVT_COMMAND_MENU_SELECTED, &MainFrame::OnExportHistory, this, ID_MEMU_EXPORT_HISTORY);
@@ -60,6 +61,10 @@ MainFrame::MainFrame(const wxString& title, const wxPoint& pos, const wxSize& si
 
     HistoryButton = new wxButton(GlobalPanel, ID_SAVE_HISTORY_BUTTON, "Save in history", position.historyButton);
     TextHistory = new wxTextCtrl(GlobalPanel, ID_TEXT_ANSWER, wxEmptyString, position.historyField, wxDefaultSize, wxTE_READONLY | wxTE_MULTILINE);
+
+    ifstream fin_history("history.txt", fstream::in);
+    if (fin_history.is_open())
+        LoadHistory(fin_history);
 }
 
 
@@ -69,32 +74,37 @@ void MainFrame::OnExit(wxCommandEvent& event)
 }
 
 
+void MainFrame::OnClose(wxCloseEvent& event)
+{
+    ofstream fout_history("history.txt", fstream::out | fstream::trunc);
+    if (fout_history.is_open())
+        ExportHistory(fout_history);
+
+    Destroy();
+}
+
+
 void MainFrame::OnAbout(wxCommandEvent& event)
 {
     wxMessageBox(about_str, "About calculator", wxOK | wxICON_INFORMATION );
 }
 
-void MainFrame::OnLoadHistory(wxCommandEvent& event) {
-    ifstream fin_history("history.txt");
-    if (!fin_history.is_open()) {
-        wxMessageBox("Can't open file \"history.txt\"", "File error", wxOK | wxICON_INFORMATION );
-        return;
-    }
 
-    TextHistory->SetValue("");
-    for (std::string str; std::getline(fin_history, str); )
-        TextHistory->AppendText(str + '\n');
+void MainFrame::OnLoadHistory(wxCommandEvent& event) {
+    ifstream fin_history("history.txt", fstream::in);
+    if (fin_history.is_open())
+        LoadHistory(fin_history);
+    else
+        wxMessageBox("Can't open file \"history.txt\"", "File error", wxOK | wxICON_INFORMATION );
 }
 
 
 void MainFrame::OnExportHistory(wxCommandEvent& event) {
-    ofstream fout_history("history.txt");
-    if (!fout_history.is_open()) {
+    ofstream fout_history("history.txt", fstream::out | fstream::trunc);
+    if (fout_history.is_open())
+        ExportHistory(fout_history);
+    else
         wxMessageBox("Can't open file \"history.txt\"", "File error", wxOK | wxICON_INFORMATION );
-        return;
-    }
-    fout_history << TextHistory->GetValue();
-    TextHistory->SetValue("");
 }
 
 
@@ -130,7 +140,6 @@ void MainFrame::OnTextEnter(wxCommandEvent& event)
             TextAnswer->SetValue("");
         }
         else {
-//            DrawPanel->SetFunction(expr);
             std::ostringstream os;
             os << calcExpr(expr);
             TextAnswer->SetValue(os.str());
@@ -152,9 +161,6 @@ void MainFrame::OnTextEnter(wxCommandEvent& event)
 
 void MainFrame::OnHistoryButton(wxCommandEvent& event) {
     wxString new_line;
-    DEBUGVAR(DrawPanel->function_is_valid);
-    DEBUGVAR(TextAnswer->IsEmpty());
-    DEBUGVAR(TextAnswer->GetValue());
     if (DrawPanel->function_is_valid)
             new_line = "y = " + TextEnter->GetValue();
     else if (!TextAnswer->IsEmpty())
@@ -178,3 +184,11 @@ void MainFrame::OnPressEnter(wxCommandEvent& event) {
 }
 
 
+void MainFrame::LoadHistory(ifstream & fin) {
+    TextHistory->SetValue("");
+    for (std::string str; std::getline(fin, str); )
+        TextHistory->AppendText(str + '\n');
+}
+void MainFrame::ExportHistory(ofstream & fout) {
+    fout << TextHistory->GetValue();
+}
